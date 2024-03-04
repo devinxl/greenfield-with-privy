@@ -1,12 +1,13 @@
 import { client } from '@/client';
 import { useState } from 'react';
-import { useAccount } from 'wagmi';
+import { useAccount, useSignTypedData } from 'wagmi';
 
 export const CreateGroup = () => {
   const { address, connector } = useAccount();
   const [createGroupInfo, setCreateGroupInfo] = useState({
     groupName: '',
   });
+  const { data, isError, isPending, isSuccess, signTypedData } = useSignTypedData();
 
   return (
     <div>
@@ -42,13 +43,21 @@ export const CreateGroup = () => {
             gasPrice: simulateInfo.gasPrice,
             payer: address,
             granter: '',
-            // signTypedDataCallback: async (addr: string, message: string) => {
-            //   const provider = await connector?.getProvider();
-            //   return await provider?.request({
-            //     method: 'eth_signTypedData_v4',
-            //     params: [addr, message],
-            //   });
-            // },
+            signTypedDataCallback: async (addr: string, message: string) => {
+              // const provider = await connector?.getProvider();
+
+              // return await provider?.request({
+              //   method: 'eth_signTypedData_v4',
+              //   params: [addr, message],
+              // });
+              const data = JSON.parse(message);
+              console.log('data', data);
+              const res = await signTypedData({
+                ...data
+              });
+              return res;
+              console.log('signTypedData-res', res)
+            },
           });
 
           if (res.code === 0) {

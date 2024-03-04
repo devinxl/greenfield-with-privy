@@ -1,4 +1,5 @@
 import { client } from '@/client';
+import { useWallets } from '@privy-io/react-auth';
 import { useState } from 'react';
 import { parseEther } from 'viem';
 import { useAccount } from 'wagmi';
@@ -10,6 +11,8 @@ export const Transfer = () => {
     amount: '1',
     gasLimit: '210000',
   });
+  const {wallets} = useWallets();
+  const wallet = wallets[0]; // Replace this with your desired wallet
 
   return (
     <div>
@@ -69,7 +72,7 @@ export const Transfer = () => {
             payer: address,
             granter: '',
             signTypedDataCallback: async (addr: string, message: string) => {
-              const provider = await connector?.getProvider();
+              const provider = await wallet.getEthereumProvider();
               return await provider?.request({
                 method: 'eth_signTypedData_v4',
                 params: [addr, message],

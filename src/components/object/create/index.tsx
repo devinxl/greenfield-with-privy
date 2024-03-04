@@ -3,6 +3,7 @@ import { getOffchainAuthKeys } from '@/utils/offchainAuth';
 import { ChangeEvent, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { ReedSolomon } from '@bnb-chain/reed-solomon';
+import { useWallets } from '@privy-io/react-auth';
 
 export const CreateObject = () => {
   const { address, connector } = useAccount();
@@ -12,6 +13,9 @@ export const CreateObject = () => {
     bucketName: '',
     objectName: '',
   });
+  const {wallets} = useWallets();
+const wallet = wallets[0];
+
 
   return (
     <div>
@@ -52,7 +56,7 @@ export const CreateObject = () => {
               return;
             }
 
-            const provider = await connector?.getProvider();
+            const provider = await wallet.getEthereumProvider();
             const offChainData = await getOffchainAuthKeys(address, provider);
             if (!offChainData) {
               alert('No offchain, please create offchain pairs first');

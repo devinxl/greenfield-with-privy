@@ -1,9 +1,13 @@
 import { useIsMounted } from '@/hooks/useIsMounted';
+import { usePrivy, useWallets } from '@privy-io/react-auth';
 import Link from 'next/link';
 
 export default function Home() {
   const isMounted = useIsMounted();
+  const { login } = usePrivy();
+  const wallets = useWallets();
 
+  console.log('wallets', wallets);
   if (!isMounted) return null;
 
   return (
@@ -18,6 +22,9 @@ export default function Home() {
         }}
       >
         <li>
+          <button onClick={login}>Log in</button>
+        </li>
+        <li>
           <Link href="/tx" color="#900" style={{ fontSize: 30 }}>
             Tx
           </Link>
@@ -27,6 +34,11 @@ export default function Home() {
           <Link href="/query" color="#900" style={{ fontSize: 30 }}>
             Query
           </Link>
+        </li>
+        <li>
+          <Link href="/embed" color="#900" style={{ fontSize: 30 }}>
+            embed
+            </Link>
         </li>
       </div>
     </>

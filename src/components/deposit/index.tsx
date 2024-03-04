@@ -1,8 +1,9 @@
-import { CROSS_CHAIN_CONTRACT_ADDRESS, TOKEN_HUB_CONTRACT_ADDRESS } from '@/config';
+import { CROSS_CHAIN_CONTRACT_ADDRESS, TOKEN_HUB_CONTRACT_ADDRESS } from '@/config/env';
 import { CROSS_CHAIN_ABI, TOKENHUB_ABI } from '@/constants/abi';
 import { useState } from 'react';
 import { formatEther, formatGwei, parseEther, parseGwei } from 'viem';
 import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
+import {encodeFunctionData} from 'viem';
 
 export const Deposit = () => {
   const { address } = useAccount();

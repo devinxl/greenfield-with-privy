@@ -1,11 +1,13 @@
 import { client } from '@/client';
+import { useWallets } from '@privy-io/react-auth';
 import { useState } from 'react';
 import { useAccount } from 'wagmi';
 
 export const DeleteBucket = () => {
   const { address } = useAccount();
   const [bucketName, setBucketName] = useState('');
-
+  const {wallets} = useWallets();
+  const wallet = wallets[0];
   return (
     <>
       <h4>Delete Bucket</h4>

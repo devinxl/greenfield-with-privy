@@ -7,7 +7,7 @@ import { MultiMsg } from '@/components/multimsg';
 import { ObjectComponent } from '@/components/object';
 import { Policy } from '@/components/policy';
 import { Transfer } from '@/components/transfer';
-import { WalletInfo } from '@/components/walletInfo';
+import { WalletInfo } from '@/components/walletInfo/WalletInfo';
 import { Withdraw } from '@/components/withdraw';
 import { useIsMounted } from '@/hooks/useIsMounted';
 import { useAccount } from 'wagmi';

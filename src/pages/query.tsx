@@ -1,5 +1,5 @@
 import { QueryComponent } from '@/components/query';
-import { WalletInfo } from '@/components/walletInfo';
+import { WalletInfo } from '@/components/walletInfo/WalletInfo';
 import { useIsMounted } from '@/hooks/useIsMounted';
 import { useAccount } from 'wagmi';
 

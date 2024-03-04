@@ -1,4 +1,4 @@
-import { GREEN_CHAIN_ID, GRPC_URL } from '@/config';
+import { GREEN_CHAIN_ID, GRPC_URL } from '@/config/env';
 import { Client } from '@bnb-chain/greenfield-js-sdk';
 
 export const client = Client.create(GRPC_URL, String(GREEN_CHAIN_ID), {

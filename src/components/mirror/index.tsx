@@ -1,5 +1,5 @@
 import { client } from '@/client';
-import { BSC_CHAIN_ID } from '@/config';
+import { BSC_CHAIN_ID } from '@/config/env';
 import { useState } from 'react';
 import { useAccount } from 'wagmi';
 

@@ -1,21 +1,19 @@
-
-import { greenfield_mainnet, greenfield_testnet, supportedChains } from "@/config/chains";
+import {
+  greenfield_mainnet,
+  greenfield_testnet,
+  supportedChains,
+} from "@/config/chains";
 import "@/styles/globals.css";
 import { PrivyProvider } from "@privy-io/react-auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
 import { createConfig, WagmiProvider } from "@privy-io/wagmi";
-import { bsc, bscTestnet } from 'viem/chains';
-import { http } from 'viem';
+import { bsc, bscTestnet } from "viem/chains";
+import { http } from "viem";
 
 const queryClient = new QueryClient();
 const wagmiConfig = createConfig({
-  chains: [
-    bsc,
-    bscTestnet,
-    greenfield_testnet,
-    greenfield_mainnet
-  ],
+  chains: [bsc, bscTestnet, greenfield_testnet, greenfield_mainnet],
   transports: {
     [bsc.id]: http(),
     [bscTestnet.id]: http(),
@@ -44,8 +42,8 @@ export default function App({ Component, pageProps }: AppProps) {
         defaultChain: greenfield_testnet,
         supportedChains: supportedChains,
         embeddedWallets: {
-          createOnLogin: 'users-without-wallets'
-        }
+          createOnLogin: "users-without-wallets",
+        },
       }}
     >
       <QueryClientProvider client={queryClient}>

@@ -1,11 +1,11 @@
 import { QueryComponent } from '@/components/query';
 import { WalletInfo } from '@/components/walletInfo/WalletInfo';
 import { useIsMounted } from '@/hooks/useIsMounted';
-import { useAccount } from 'wagmi';
+import { usePrivy } from '@privy-io/react-auth';
 
 export default function Rpc() {
   const isMounted = useIsMounted();
-  const { isConnected } = useAccount();
+  const {ready, authenticated} = usePrivy();
 
   if (!isMounted) return null;
 
@@ -15,7 +15,7 @@ export default function Rpc() {
 
       <hr style={{ margin: '10px 0' }} />
 
-      {isConnected && (
+      {ready && authenticated && (
         <>
           <h2>Query</h2>
 

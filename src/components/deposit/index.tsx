@@ -1,14 +1,14 @@
 import { CROSS_CHAIN_CONTRACT_ADDRESS, TOKEN_HUB_CONTRACT_ADDRESS } from '@/config/env';
 import { CROSS_CHAIN_ABI, TOKENHUB_ABI } from '@/constants/abi';
 import { useState } from 'react';
-import { formatEther, formatGwei, parseEther, parseGwei } from 'viem';
-import { useAccount, usePublicClient, useWalletClient } from 'wagmi';
-import {encodeFunctionData} from 'viem';
+import { WriteContractParameters, parseEther } from 'viem';
+import { useAccount, useWalletClient } from 'wagmi';
+import { publicClient } from './client';
+import { bscTestnet } from 'viem/chains';
 
 export const Deposit = () => {
   const { address } = useAccount();
-  const publicClient = usePublicClient();
-  const { data: walletClient } = useWalletClient();
+  const { data: walletClient } = useWalletClient({account: address, chainId: 97});
   const [depositAmount, setDepositAmount] = useState(0);
 
   return (
@@ -29,43 +29,31 @@ export const Deposit = () => {
             address: CROSS_CHAIN_CONTRACT_ADDRESS,
             functionName: 'getRelayFees',
           });
-          console.log('relayFees', relayFees);
-          const [relayFee, ackRelayFee] = relayFees;
-          console.log('relayFee', relayFee);
-          console.log('ackRelayFee', ackRelayFee);
-
+          const [relayFee, ackRelayFee] = relayFees as [bigint, bigint];
           const amount = parseEther(`${depositAmount}`);
           const amount_with_relay_fee = relayFee + ackRelayFee + amount;
-          console.log('amount_with_relay_fee', amount_with_relay_fee);
 
-          // const estimateGas = await publicClient.estimateContractGas({
-          //   address: TOKEN_HUB_CONTRACT_ADDRESS,
-          //   abi: TOKENHUB_ABI,
-          //   functionName: 'transferOut',
-          //   args: [address, amount],
-          //   account: address,
-          //   value: amount_with_relay_fee,
-          // });
-          // console.log('estimateGas', estimateGas);
-
-          const gasPrice = await publicClient.getGasPrice();
-
-          console.log('gasPrice', gasPrice);
-
-          // const gasFee = BigInt(5) * gasPrice;
-          const gasFee = 21000n;
-          console.log('estimate gas fee: gas price * gas = ', formatEther(gasFee), 'ETH');
-
-          const txHash = await walletClient.writeContract({
+          const writeContractPayload: WriteContractParameters = {
             address: TOKEN_HUB_CONTRACT_ADDRESS,
             abi: TOKENHUB_ABI,
             functionName: 'transferOut',
+            chain: bscTestnet,
             args: [address, amount],
             account: address,
             value: amount_with_relay_fee,
-          });
+          };
 
-          console.log(txHash);
+          console.log('writeContractPayload', writeContractPayload)
+          try {
+            const txHash = await walletClient.writeContract(writeContractPayload);
+            window.alert(`Deposit success - ${ txHash }`);
+          } catch (e) {
+            console.log('writeContract - error', e);
+          }
+
+
+          // console.log(txHash);
+          // readContract();
         }}
       >
         deposit

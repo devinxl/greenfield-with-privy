@@ -17,10 +17,11 @@ import { Proposal } from '@/components/proposal';
 import { Distribution } from '@/components/distribution';
 import { VirtualGroup } from '@/components/vg';
 import { CustomTx } from '@/components/customtx';
+import { usePrivy } from '@privy-io/react-auth';
 
 export default function Tx() {
   const isMounted = useIsMounted();
-  const { isConnected } = useAccount();
+  const { ready, authenticated } = usePrivy();
 
   if (!isMounted) return null;
 
@@ -30,7 +31,7 @@ export default function Tx() {
 
       <hr style={{ margin: '10px 0' }} />
 
-      {isConnected && (
+      {ready && authenticated && (
         <>
           <Deposit />
           <hr style={{ margin: '10px 0' }} />

@@ -1,4 +1,6 @@
-export const TOKENHUB_ABI = [
+import { Abi } from 'viem';
+
+export const TOKENHUB_ABI: Abi = [
   {
     anonymous: false,
     inputs: [
@@ -1532,4 +1534,4 @@ export const CROSS_CHAIN_ABI = [
     stateMutability: 'pure',
     type: 'function',
   },
-] as const;
+];

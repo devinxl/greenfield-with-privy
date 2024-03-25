@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useAccount } from "wagmi";
 
 export const CreateBucket = () => {
-  // const { address, connector } = useAccount();
+  const { connector } = useAccount();
   const [createBucketInfo, setCreateBucketInfo] = useState<{
     bucketName: string;
   }>({
@@ -21,7 +21,7 @@ export const CreateBucket = () => {
   const { wallets } = useWallets();
   const wallet = wallets[0];
   console.log("wallet-create-bucket", wallet);
-  const address = wallet.address;
+  const address = wallet?.address;
   console.log("address", address);
   return (
     <>
@@ -116,7 +116,7 @@ export const CreateBucket = () => {
               gasPrice: simulateInfo?.gasPrice || "5000000000",
               payer: address,
               granter: "",
-              signTypedDataCallback:  async (addr: string, message: string) => {
+              signTypedDataCallback: async (addr: string, message: string) => {
                 return await signTypedDataV4(provider, addr, message);
               }
             });
